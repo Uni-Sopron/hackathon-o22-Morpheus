@@ -1,3 +1,4 @@
+from guess_checker import is_correct_guess
 import random
 import json
 import os
@@ -100,6 +101,8 @@ def get_5_szo():
 def round():
     szavak = get_5_szo()
     almodoTippek = []
+    joTippek = []
+    rosszTippek = []
 
     for szo in szavak:
         print("szó: " + szo)
@@ -107,12 +110,22 @@ def round():
         almodoTippek.append(tipp)
         os.system('clear')
 
-    print("szavak: " + szavak)
-    print("tippek: " + almodoTippek)
+    print(szavak)
+    print(almodoTippek)
 
-def helyesTipp(kartyaSzo, tipp): False # Balázs írja
+    for i in range(len(almodoTippek)):
+        if is_correct_guess(almodoTippek[i], szavak[i]): joTippek.append(almodoTippek[i])
+        else: rosszTippek.append(almodoTippek[i])
+        
+    print("eredeti szavak:")
+    print(szavak)
+    print("jó szavak:")
+    print(joTippek)
+    print("rossz szavak:")
+    print(rosszTippek)
 
 if __name__ == "__main__": 
+    print(is_correct_guess("csíRke", "csirke"))
     playerList = playersInit()
     playerList = randomRoles(playerList)
     round()
