@@ -76,7 +76,8 @@ def randomRoles(playerList:list) -> list:
         print("Név: " + player.name)
         print("Szerep: " + player.role)
         print()
-        os.system('clear')
+        os.system('clear') # linux
+        #os.system('cls') # windows
 
     return playerList
 
@@ -86,7 +87,6 @@ def readszavak():
     Lines = file1.readlines()
     for line in Lines:
         szavak.append(line.strip())
-    
     return szavak
 
 def get_5_szo():
@@ -98,7 +98,8 @@ def get_5_szo():
         selected_choices.append(choice)
     return selected_choices
 
-def round():
+def round() -> None:
+    """Egy kört vezényel le"""
     szavak = get_5_szo()
     almodoTippek = []
     joTippek = []
@@ -108,10 +109,8 @@ def round():
         print("szó: " + szo)
         tipp = input("tipp: ")
         almodoTippek.append(tipp)
-        os.system('clear')
-
-    print(szavak)
-    print(almodoTippek)
+        os.system('clear') # linux
+        #os.system('cls') # windows
 
     for i in range(len(almodoTippek)):
         if is_correct_guess(almodoTippek[i], szavak[i]): joTippek.append(almodoTippek[i])
@@ -119,13 +118,18 @@ def round():
         
     print("eredeti szavak:")
     print(szavak)
+    print("álmodó tippek:")
+    print(almodoTippek)
     print("jó szavak:")
     print(joTippek)
     print("rossz szavak:")
     print(rosszTippek)
 
 if __name__ == "__main__": 
-    print(is_correct_guess("csíRke", "csirke"))
+    # print(is_correct_guess("csíRke", "csirke"))
+    # print(is_correct_guess("kosar", "kosár")) FALSE???
+    # print(is_correct_guess("muzsika", "zene")) FALSE???
+    # print(is_correct_guess("regeny", "regény")) FALSE???
     playerList = playersInit()
     playerList = randomRoles(playerList)
     round()
