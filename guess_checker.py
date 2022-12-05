@@ -2,8 +2,8 @@ from wordhoard import Synonyms
 from wordhoard.utilities.google_translator import Translator
 
 def is_correct_guess(word: str, testword: str) -> bool:
-    word = word.lower
-    testword = testword.lower
+    word = word.lower()
+    testword = testword.lower()
     letters_to_check = ('á','é','í','ó','ö','ő','ú','ü','ű')
     letters_to_change_to = ('a','e','i','o','o','o','u','u','u')
 
@@ -12,8 +12,9 @@ def is_correct_guess(word: str, testword: str) -> bool:
     else:
         letters = word
         for letter in letters_to_check:
-            if letters.count(letter) != 0:
-                letters[letters.index[letter]] = letters_to_change_to[letters_to_check.index[letter]]
+            if letters.count(letter,0,len(letters)) != 0:
+                index = letters_to_check.index(letter)
+                letters = letters.replace(letters_to_check[index], letters_to_change_to[index])
         if letters == testword:
             return True
         else:
