@@ -62,11 +62,9 @@ def randomRoles(playerList:list) -> list:
 
     roles = []
     for role in data[str(len(playerList))].keys():
-        print(role)
         for _ in range(int(data[str(len(playerList))][role])):
             roles.append(role)
 
-    print(roles)
     for player in withoutRole:
         role = random.choice(roles)
         player.setRole(role)
