@@ -1,30 +1,44 @@
 from tkinter import *
+import random
 
+def readszavak():
+    szavak = []
+    file1 = open('szavak.txt', 'r',encoding='utf-8')
+    Lines = file1.readlines()
+    for line in Lines:
+        szavak.append(line.strip())
+    
+    return szavak
 
+def get_5_szo():
+    szavak = readszavak()
+    selected_choices=[]
+    random.choice()
 
-
-szavak = []
-file1 = open('szavak.txt', 'r',encoding='utf-8')
-Lines = file1.readlines()
-for line in Lines:
-    szavak.append(line.strip())
-print(szavak)
+    
 
 
 def createcard():
     pass
 
 
+def main():
+    
 
-window = Tk()
-greeting = Label(text="Hello, Tkinter")
-greeting.pack()
-window.geometry("500x500")
-#bg = PhotoImage(file = "wood.png")
-canvas1 = Canvas( window, width = 500,
-                 height = 500)
-canvas1.pack(fill = "both", expand = True)
-#canvas1.create_image( 0, 0, image = bg, 
-#                    anchor = "nw")
+    window = Tk()
 
-window.mainloop()
+
+    window.geometry("500x500")
+    window.title('Álmodj Velem')
+    window.configure(background="#954535")
+    my_frame = Frame(window,bg="#954535")
+    my_frame.pack(pady=20)
+    card_frame = LabelFrame(my_frame,width=200,height=200)
+    card_label = Label(card_frame,text="")
+
+    
+    
+
+    window.mainloop()
+
+main()
