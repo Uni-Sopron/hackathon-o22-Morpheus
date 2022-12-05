@@ -60,11 +60,17 @@ def randomRoles(playerList:list) -> list:
             player.setRole("almodo")
             withoutRole.remove(dreamer)
 
+    roles = []
     for role in data[str(len(playerList))].keys():
+        print(role)
         for _ in range(int(data[str(len(playerList))][role])):
-            randomPlayer = random.choice(withoutRole)
-            randomPlayer.setRole(role)
-            withoutRole.remove(randomPlayer)
+            roles.append(role)
+
+    print(roles)
+    for player in withoutRole:
+        role = random.choice(roles)
+        player.setRole(role)
+        roles.remove(role)
 
     for player in playerList:
         print("Név: " + player.name)
