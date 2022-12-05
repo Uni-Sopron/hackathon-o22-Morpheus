@@ -1,5 +1,6 @@
 from tkinter import *
 import random
+from PIL import Image, ImageTk
 
 def readszavak():
     szavak = []
@@ -21,29 +22,41 @@ def get_5_szo():
 
     return selected_choices
 
-def createcards():
-    pass
-
-
-def main():
-    
+def render():
+    szavak = get_5_szo()
 
     window = Tk()
 
-
-    window.geometry("500x500")
+    window.resizable(width=FALSE, height=FALSE)
+    window.geometry("800x800")
     window.title('Álmodj Velem')
     window.configure(background="#954535")
-    my_frame = Frame(window)
-    my_frame.pack(pady=20)
-    card_frame = LabelFrame(my_frame,text="hello")
-    card_frame.pack()
-    card_label = Label(card_frame,text="")
-    card_label.pack(pady=20)
+    for i in range(5):
+        my_frame = Frame(window, width=200,height=300)
+        my_frame.pack(pady=200, expand=True)
+        my_frame.pack_propagate(False)
+        load = Image.open("parrot.jpg")
+        resize_image = load.resize((250, 250))
+
+        render = ImageTk.PhotoImage(resize_image)
+        img = Label(my_frame, image=render)
+        img.image = render
+        img.place(x=-20, y=30)
+
+        card_name = Label(my_frame, text=szavak[i])
+        card_name.pack(pady=10)
+
+        entry = Entry(my_frame,width=50)
+        entry.pack(pady=100)
+        
+    
+    
+
+    
 
     
     
 
     window.mainloop()
 
-main()
+render()
