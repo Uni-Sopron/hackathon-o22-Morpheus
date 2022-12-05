@@ -19,12 +19,9 @@ def is_correct_guess(word: str, testword: str) -> bool:
             return True
         else:
             translated_word = Translator(source_language='hu', str_to_translate=word).translate_word()
+            translated_testword = Translator(source_language='hu', str_to_translate=testword).translate_word()
             synonyms = Synonyms(translated_word).find_synonyms()
-            reverse_translations = []
             for synonym in synonyms:
-                reverse_translated_word = Translator(source_language='hu', str_to_translate=synonym).reverse_translate()
-                reverse_translations.append(reverse_translated_word)
-            for synonym in reverse_translations:
-                if synonym == testword:
+                if synonym == translated_testword:
                     return True
     return False
