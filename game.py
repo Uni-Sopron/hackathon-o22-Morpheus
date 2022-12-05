@@ -1,5 +1,6 @@
 import random
 import json
+import os
 
 class Player:
     def __init__(self, name:str) -> None:
@@ -74,42 +75,44 @@ def randomRoles(playerList:list) -> list:
         print("Név: " + player.name)
         print("Szerep: " + player.role)
         print()
+        os.system('clear')
 
     return playerList
 
+def readszavak():
+    szavak = []
+    file1 = open('szavak.txt', 'r',encoding='utf-8')
+    Lines = file1.readlines()
+    for line in Lines:
+        szavak.append(line.strip())
+    
+    return szavak
 
-########
-# Terv #
-########
+def get_5_szo():
+    selected_choices=[]
+    szavak = readszavak()
+    for _ in range(5):
+        choice = random.choice(szavak)
+        szavak.remove(choice)
+        selected_choices.append(choice)
+    return selected_choices
+
 def round():
-    kartyak = []
-    helyesTippek = []
-    rosszTippek = []
+    szavak = get_5_szo()
     almodoTippek = []
-    while True:
-        kartya = None
-        print("Álmodó tipp: ")
-        tipp = input()
+
+    for szo in szavak:
+        print("szó: " + szo)
+        tipp = input("tipp: ")
         almodoTippek.append(tipp)
-        if tipp == "exit": break
-        elif helyesTipp: 
-            almodoTippek.append(tipp)
-            helyesTippek.append(tipp)
-        else: 
-            almodoTippek.append(None)
+        os.system('clear')
+
+    print(almodoTippek)
 
 def helyesTipp(kartyaSzo, tipp): False # Balázs írja
 
 if __name__ == "__main__": 
     playerList = playersInit()
     playerList = randomRoles(playerList)
-    
-    # Terv
-    #option = 0
-    #while option == 0:
-    #    print('[1] új játék')
-    #    print('[2] START')
-    #    if option == 1:
-    #        playerList = playersInit()
-    #    elif option == 2:
-    #        while True: round()
+    round()
+
