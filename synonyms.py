@@ -13,6 +13,10 @@ def getSynonyms(szo: str) -> list:
     ['ciica']
     >>> getSynonyms("apartman")
     ['fogadó', 'szálloda', 'hotel', 'szálló', 'motel', 'vendégfogadó', 'panzió', 'vendégház']
+    >>> getSynonyms("ablak")
+    ['nyílászáró']
+    >>> getSynonyms("áll")
+    ['található', 'elhelyezkedik', 'van', 'vár', 'nyugszik', 'várakozik', 'álldogál', 'rohad', 'vesztegel', 'ácsorog', 'malmozik', 'dekkol', 'szobrozik', 'rostokol', 'meg se moccan', 'nyugalomban van', 'nem halad', 'parkol', 'parkírozik', 'visel', 'bír', 'kibír', 'elvisel', 'tolerál', 'eltűr', 'benyel', 'tűr']
 
     Returns:
         list: Szinonimak listája.
@@ -23,6 +27,8 @@ def getSynonyms(szo: str) -> list:
     if "hiba" in list(content.keys()):
         return [szo]
     elif len(content["szinonimak"]["szocsoport"]) == 1:
+        if isinstance(content["szinonimak"]["szocsoport"]["szinonima"], str): 
+            return [content["szinonimak"]["szocsoport"]["szinonima"]]
         return content["szinonimak"]["szocsoport"]["szinonima"]
 
     synonyms = []
