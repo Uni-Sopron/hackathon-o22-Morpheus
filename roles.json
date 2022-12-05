@@ -2,16 +2,35 @@
     "4" : {
         "mumus": 1,
         "tunder": 1,
-        "alommano": 1
+        "alommano": 2
     },
     "5" : {
         "mumus": 1,
         "tunder": 2,
-        "alommano": 1
+        "alommano": 2
     },
     "6" : {
-        "mumus": 1,
-        "tunder": 2,
+        "mumus": 2,
+        "tunder": 3,
+        "alommano": 1
+    },
+    "7" : {
+        "mumus": 2,
+        "tunder": 3,
         "alommano": 2
-    }
+    },
+    "8" : {
+        "mumus": 3,
+        "tunder": 4,
+        "alommano": 1
+    },
+    "9" : {
+        "mumus": 3,
+        "tunder": 4,
+        "alommano": 2
+    },
+    "10" : {
+        "mumus": 4,
+        "tunder": 5,
+        "alommano": 1
 }
