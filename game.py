@@ -107,7 +107,8 @@ def round():
         almodoTippek.append(tipp)
         os.system('clear')
 
-    print(almodoTippek)
+    print("szavak: " + szavak)
+    print("tippek: " + almodoTippek)
 
 def helyesTipp(kartyaSzo, tipp): False # Balázs írja
 
