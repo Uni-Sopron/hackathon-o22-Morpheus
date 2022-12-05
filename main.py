@@ -11,14 +11,17 @@ def readszavak():
     return szavak
 
 def get_5_szo():
-    szavak = readszavak()
     selected_choices=[]
-    random.choice()
+    szavak = readszavak()
+    for _ in range(5):
+        choice = random.choice(szavak)
+        szavak.remove(choice)
+        selected_choices.append(choice)
+        print(len(szavak))
 
-    
+    return selected_choices
 
-
-def createcard():
+def createcards():
     pass
 
 
@@ -31,10 +34,12 @@ def main():
     window.geometry("500x500")
     window.title('Álmodj Velem')
     window.configure(background="#954535")
-    my_frame = Frame(window,bg="#954535")
+    my_frame = Frame(window)
     my_frame.pack(pady=20)
-    card_frame = LabelFrame(my_frame,width=200,height=200)
+    card_frame = LabelFrame(my_frame,text="hello")
+    card_frame.pack()
     card_label = Label(card_frame,text="")
+    card_label.pack(pady=20)
 
     
     
