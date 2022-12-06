@@ -12,7 +12,8 @@ def give_url(words: list) -> list:
     r = requests.get('https://www.google.com/search?tbm=isch&q=' + "cat")
     print(r)
     soup = BeautifulSoup(r.text, 'lxml')
-    with open("asd.txt", "w",encoding="utf8") as f:
+    path = os.path.join(my_path, "asd.txt")
+    with open(path, "w",encoding="utf8") as f:
         f.write(f"{soup}")
         #first_image_link = soup.find('a', class_='image-list-link')['href']
         #images.append(first_image_link)
