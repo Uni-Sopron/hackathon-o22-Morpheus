@@ -31,12 +31,12 @@ def get_5_szo():
 
 def give_url(words: list) -> list:
     images = []
-    for i in range(len(words)):
-        r = requests.get('https://gr.pinterest.com/search/pins/?q=' + words[i] + '&rs=typed')
-        print(r)
-        soup = BeautifulSoup(r.text, 'lxml')
-        with open("asd.txt", "w",encoding="utf8") as f:
-            f.write(f"{soup}")
+    #for i in range(len(words)):
+    r = requests.get('https://www.google.com/search?tbm=isch&q=' + "cat")
+    print(r)
+    soup = BeautifulSoup(r.text, 'lxml')
+    with open("asd.txt", "w",encoding="utf8") as f:
+        f.write(f"{soup}")
             
             
         #first_image_link = soup.find('a', class_='image-list-link')['href']
