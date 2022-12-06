@@ -22,7 +22,21 @@ def get_5_szo():
 
     return selected_choices
 
+def newKep (my_frame, name):
+    load = Image.open(name)
+    resize_image = load.resize((250, 250))
+    render = ImageTk.PhotoImage(resize_image)
+    img = Label(my_frame, image=render)
+    img.image = render
+    # img.place(x=-20, y=60)
+    img.place(x=-20, y=60)
+
+
+def callback(value):
+    value+=1
+
 def render():
+    value = 0
     szavak = get_5_szo()
 
     window = Tk()
@@ -31,32 +45,62 @@ def render():
     window.geometry("800x800")
     window.title('Álmodj Velem')
     window.configure(background="#954535")
-    for i in range(5):
-        my_frame = Frame(window, width=200,height=300)
-        my_frame.pack(pady=200, expand=True)
-        my_frame.pack_propagate(False)
-        load = Image.open("parrot.jpg")
-        resize_image = load.resize((250, 250))
+    mainframe= Frame(window ,background="#954535",padx=100,pady=100)
+    mainframe.pack()
 
-        render = ImageTk.PhotoImage(resize_image)
-        img = Label(my_frame, image=render)
-        img.image = render
-        img.place(x=-20, y=30)
+    topframe = Frame(mainframe)
+    topframe.grid(row=0, column=1,padx=(value, 10))
 
-        card_name = Label(my_frame, text=szavak[i])
+    bottomframe = Frame(mainframe)
+    bottomframe.grid(row=1, column=1,padx=(value, 10))
+
+    leftFrame = Frame(mainframe)
+    leftFrame.grid(row=0, column=0,padx=(value, 10))
+
+    rightFrame = Frame(mainframe)
+    rightFrame.grid(row=0, column=2,padx=(value, 10))
+
+    for i in range(1):
+        badFrame = Frame(leftFrame, width=200,height=300)
+        badFrame.pack()
+        badFrame.pack_propagate(False)
+
+        myFrame = Frame(topframe, width=202, height=325)
+        myFrame.pack()
+        myFrame.pack_propagate(False)
+
+        goodFrame = Frame(rightFrame, width=200, height=300)
+        goodFrame.pack()
+
+        # load = Image.open("parrot.jpg")
+        # resize_image = load.resize((250, 250))
+
+        # render = ImageTk.PhotoImage(resize_image)
+        # img = Label(my_frame, image=render)
+        # img.image = render
+        # img.place(x=-20, y=60)
+
+        newKep(myFrame, "parrot.jpg") # megjeleníti a papagáj képet
+
+        card_name = Label(myFrame, text=szavak[value])
         card_name.pack(pady=10)
 
-        entry = Entry(my_frame,width=50)
-        entry.pack(pady=100)
-        
-    
-    
+        badCard = Label(leftFrame, text= "Helytelen")
+        badCard.pack()
 
-    
+        goodCard = Label(rightFrame, text="Helyes")
+        goodCard.pack()
 
-    
-    
+
+        entry = Entry(bottomframe,width=33)
+        entry.pack()
+        button = Button(bottomframe, text="tipp leadás", command=lambda: newKep(myFrame, "wood.png")) 
+        button.pack()
+
 
     window.mainloop()
 
 render()
+        
+    
+    
