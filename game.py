@@ -3,8 +3,11 @@ import random
 import json
 import os
 
+my_path = os.path.abspath(os.path.dirname(__file__))
+
 class Player:
-    def __init__(self, name:str) -> None:
+    def __init__(self, name:str, playar_id: int) -> None:
+        self.player_id = playar_id
         self.name = name
         self.role = None
         self.points = 0
@@ -24,7 +27,8 @@ def playersInit() -> list:
         list: A játékosok listája.
     """
     playerList = []
-    f = open('roles.json')
+    path = os.path.join(my_path, "roles.json")
+    f = open(path)
     data = json.load(f)
     f.close()
 
@@ -37,10 +41,12 @@ def playersInit() -> list:
         if int(playerCount) > maxPlayerCount or int(playerCount) < minPlayerCount: 
             print("Nem jó játékos szám!")
 
+    id = 0
     for playerNum in range(int(playerCount)):
         print("Add meg a " + str(playerNum+1) + ". nevét: ")
         name = input()
-        playerList.append(Player(name))
+        playerList.append(Player(name,id))
+        id += 1
 
     return playerList
 
@@ -50,7 +56,8 @@ def randomRoles(playerList:list) -> list:
     Returns:
         list: A játékosok listája szerepekkel.
     """
-    f = open('roles.json')
+    path = os.path.join(my_path, "roles.json")
+    f = open(path)
     data = json.load(f)
     f.close()
 
@@ -58,7 +65,7 @@ def randomRoles(playerList:list) -> list:
 
     dreamer = random.choice(playerList)
     for player in playerList:
-        if player.name == dreamer.name:
+        if player.player_id == dreamer.player_id:
             player.setRole("almodo")
             withoutRole.remove(dreamer)
 
@@ -76,14 +83,15 @@ def randomRoles(playerList:list) -> list:
         print("Név: " + player.name)
         print("Szerep: " + player.role)
         print()
-        os.system('clear') # linux
-        #os.system('cls') # windows
+        #os.system('clear') # linux
+        os.system('cls') # windows
 
     return playerList
 
 def readszavak():
     szavak = []
-    file1 = open('szavak.txt', 'r',encoding='utf-8')
+    path = os.path.join(my_path, 'szavak.txt')
+    file1 = open(path, 'r',encoding='utf-8')
     Lines = file1.readlines()
     for line in Lines:
         szavak.append(line.strip())
@@ -109,8 +117,8 @@ def round() -> None:
         print("szó: " + szo)
         tipp = input("tipp: ")
         almodoTippek.append(tipp)
-        os.system('clear') # linux
-        #os.system('cls') # windows
+        #os.system('clear') # linux
+        os.system('cls') # windows
 
     for i in range(len(almodoTippek)):
         if is_correct_guess(almodoTippek[i], szavak[i]): joTippek.append(almodoTippek[i])
@@ -133,4 +141,3 @@ if __name__ == "__main__":
     playerList = playersInit()
     playerList = randomRoles(playerList)
     round()
-
