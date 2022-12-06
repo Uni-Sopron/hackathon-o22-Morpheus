@@ -1,5 +1,4 @@
-from wordhoard import Synonyms
-from wordhoard.utilities.google_translator import Translator
+from synonyms import getSynonyms
 
 def is_correct_guess(word: str, testword: str) -> bool:
     word = word.lower()
@@ -22,10 +21,8 @@ def is_correct_guess(word: str, testword: str) -> bool:
         if letters == testword or letters == test_letters:
             return True
         else:
-            translated_word = Translator(source_language='hu', str_to_translate=word).translate_word()
-            translated_testword = Translator(source_language='hu', str_to_translate=testword).translate_word()
-            synonyms = Synonyms(translated_word, max_number_of_requests=24).find_synonyms()
+            synonyms = getSynonyms(word)
             for synonym in synonyms:
-                if synonym == translated_testword:
+                if synonym == testword:
                     return True
     return False
