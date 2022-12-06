@@ -23,7 +23,7 @@ def get_5_szo():
     return selected_choices
 
 def newKep (my_frame, name):
-    load = Image.open(name)
+    load = Image.open(name + ".jpg") # csak .jpg képekkel működik, de elég a szót átadni
     resize_image = load.resize((250, 250))
     render = ImageTk.PhotoImage(resize_image)
     img = Label(my_frame, image=render)
@@ -31,13 +31,38 @@ def newKep (my_frame, name):
     # img.place(x=-20, y=60)
     img.place(x=-20, y=60)
 
+def newCard(my_frame, list, value):
+    card = Label(my_frame, text=list[value])
+    card.pack(pady=10)
+    # return card
 
 def callback(value):
     value+=1
 
+def Tipp(frame, list, value):
+    newKep (frame, list[value])
+
+
+def check(frame, card_name, list, value):
+    newKep(frame, list[value])
+    card_name.destroy()
+    newCard(frame, list, value)
+
+# def check(frame, card_name, list, value):
+#     newKep(frame, list[value])
+#     card_name.destroy()
+#     newCard(frame, list, value)
+#     if rossztipp:
+#         Tipp(leftFrame, list, value-1)
+#     else:
+#         Tipp(rightFrame, list, value-1)
+
+
 def render():
     value = 0
-    szavak = get_5_szo()
+    # szavak = get_5_szo()
+    szavak = ["parrot", "dog"]
+    tippek = []
 
     window = Tk()
 
@@ -60,7 +85,8 @@ def render():
     rightFrame = Frame(mainframe)
     rightFrame.grid(row=0, column=2,padx=(value, 10))
 
-    for i in range(1):
+
+    for i in range(1): # while len(szavak)?
         badFrame = Frame(leftFrame, width=200,height=300)
         badFrame.pack()
         badFrame.pack_propagate(False)
@@ -80,7 +106,9 @@ def render():
         # img.image = render
         # img.place(x=-20, y=60)
 
-        newKep(myFrame, "parrot.jpg") # megjeleníti a papagáj képet
+        newKep(myFrame, "parrot") # megjeleníti a papagáj képet
+
+        # name = newCard(myFrame, szavak, value)
 
         card_name = Label(myFrame, text=szavak[value])
         card_name.pack(pady=10)
@@ -94,13 +122,12 @@ def render():
 
         entry = Entry(bottomframe,width=33)
         entry.pack()
-        button = Button(bottomframe, text="tipp leadás", command=lambda: newKep(myFrame, "wood.png")) 
+        button = Button(bottomframe, text="tipp leadás", command=lambda: check(myFrame, card_name, szavak, value))
         button.pack()
 
+        value+=1
 
     window.mainloop()
 
 render()
-        
-    
     
