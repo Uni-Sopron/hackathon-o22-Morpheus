@@ -28,5 +28,5 @@ for i in range(len(angol)):
 print(en_hu)
 print(en_hu[0]["horse"])
 
-with open("szoparositas.json","w",encoding="UTF8") as f:
+with open(my_path + "/szoparositas.json","w",encoding="UTF8") as f:
     json.dump(en_hu ,f, ensure_ascii=False)
