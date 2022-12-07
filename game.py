@@ -1,4 +1,5 @@
 from guess_checker import is_correct_guess
+from pontozas import points_handler
 import random
 import json
 import os
@@ -27,8 +28,7 @@ def playersInit() -> list:
         list: A játékosok listája.
     """
     playerList = []
-    path = os.path.join(my_path, "roles.json")
-    f = open(path)
+    f = open(my_path + "/roles.json")
     data = json.load(f)
     f.close()
 
@@ -56,8 +56,7 @@ def randomRoles(playerList:list) -> list:
     Returns:
         list: A játékosok listája szerepekkel.
     """
-    path = os.path.join(my_path, "roles.json")
-    f = open(path)
+    f = open(my_path + "\roles.json")
     data = json.load(f)
     f.close()
 
@@ -90,8 +89,7 @@ def randomRoles(playerList:list) -> list:
 
 def readszavak():
     szavak = []
-    path = os.path.join(my_path, 'szavak.txt')
-    file1 = open(path, 'r',encoding='utf-8')
+    file1 = open(my_path+'/szavak.txt', 'r', encoding='utf-8')
     Lines = file1.readlines()
     for line in Lines:
         szavak.append(line.strip())
@@ -106,7 +104,7 @@ def get_5_szo():
         selected_choices.append(choice)
     return selected_choices
 
-def round() -> None:
+def round() -> tuple:
     """Egy kört vezényel le"""
     szavak = get_5_szo()
     almodoTippek = []
@@ -123,7 +121,7 @@ def round() -> None:
     for i in range(len(almodoTippek)):
         if is_correct_guess(almodoTippek[i], szavak[i]): joTippek.append(almodoTippek[i])
         else: rosszTippek.append(almodoTippek[i])
-        
+    
     print("eredeti szavak:")
     print(szavak)
     print("álmodó tippek:")
@@ -133,11 +131,15 @@ def round() -> None:
     print("rossz szavak:")
     print(rosszTippek)
 
+    return [rosszTippek, joTippek]
+
 if __name__ == "__main__": 
-    # print(is_correct_guess("csíRke", "csirke"))
-    # print(is_correct_guess("kosar", "kosár")) FALSE???
-    # print(is_correct_guess("muzsika", "zene")) FALSE???
-    # print(is_correct_guess("regeny", "regény")) FALSE???
+    #print(is_correct_guess("csíRke", "csirke"))
+    #print(is_correct_guess("kosar", "kosár")) #FALSE???
+    #print(is_correct_guess("muzsika", "zene")) #FALSE???
+    #print(is_correct_guess("regeny", "regény")) #FALSE??? 
     playerList = playersInit()
     playerList = randomRoles(playerList)
-    round()
+    guesses = round()
+    for player in playerList:
+        points_handler(player, guesses[0], guesses[1])
