@@ -14,17 +14,17 @@ def readszavak():
     
     return szavak
 
-def get_5_szo():
+def get_n_szo(n:int):
     selected_choices=[]
     szavak = readszavak()
-    for _ in range(5):
+    for _ in range(n):
         choice = random.choice(szavak)
         szavak.remove(choice)
         selected_choices.append(choice)
 
     return selected_choices
 
-def newKep (my_frame, value):
+def newKep (my_frame, szavak, value):
     
     load = Image.open(my_path+"/kepek/"+szavak[value]+".jpg") # csak .jpg képekkel működik, de elég a szót átadni
     resize_image = load.resize((250, 250))
@@ -44,19 +44,21 @@ def callback(value):
     value+=1
 
 def Tipp(frame, list, value):
-    newKep (frame, list[value.get()])
+    newKep (frame, list, list[value.get()])
 
 
-def check(frame, card_name, list, value, tipp, eredetiSzo):
-    print(is_correct_guess(tipp.get(), eredetiSzo))
+def check(window, frame, card_name, list, value, tipp, eredetiSzo, tippek):
+    print(tipp.get(), eredetiSzo, is_correct_guess(tipp.get(), eredetiSzo))
     i = value.get()
     print(value.get())
-    newKep(frame, i)
+    newKep(frame, list, i)
     card_name.destroy()
     newCard(frame, list, value.get())
-    print(tipp.get())
+    tippek.append(tipp.get())
     tipp.set('')
-    
+    print(tippek, i)
+    if (i == len(list)-1): 
+        window.destroy()
     value.set(i+1)
 
 # def check(frame, card_name, list, value):
@@ -68,11 +70,10 @@ def check(frame, card_name, list, value, tipp, eredetiSzo):
 #     else:
 #         Tipp(rightFrame, list, value-1)
 
-szavak = get_5_szo()
 
-def render():
+def render(eredetiSzavak):
     window = Tk()
-
+    szavak = eredetiSzavak
     value = IntVar(window, 0)
     value.set(0)
     tippek = []
@@ -98,17 +99,16 @@ def render():
     rightFrame.grid(row=0, column=2,padx=(value.get(), 10))
 
 
-    for i in range(1): # while len(szavak)?
-        badFrame = Frame(leftFrame, width=200,height=300)
-        badFrame.pack()
-        badFrame.pack_propagate(False)
+    badFrame = Frame(leftFrame, width=200,height=300)
+    badFrame.pack()
+    badFrame.pack_propagate(False)
 
-        myFrame = Frame(topframe, width=202, height=325)
-        myFrame.pack()
-        myFrame.pack_propagate(False)
+    myFrame = Frame(topframe, width=202, height=325)
+    myFrame.pack()
+    myFrame.pack_propagate(False)
 
-        goodFrame = Frame(rightFrame, width=200, height=300)
-        goodFrame.pack()
+    goodFrame = Frame(rightFrame, width=200, height=300)
+    goodFrame.pack()
 
         # load = Image.open("parrot.jpg")
         # resize_image = load.resize((250, 250))
@@ -117,29 +117,31 @@ def render():
         # img = Label(my_frame, image=render)
         # img.image = render
         # img.place(x=-20, y=60)
-        newKep(myFrame, value.get()) # megjeleníti a papagáj képet
+    newKep(myFrame, szavak, value.get()) # megjeleníti a papagáj képet
 
         # name = newCard(myFrame, szavak, value)
 
-        card_name = Label(myFrame, text=szavak[value.get()])
-        card_name.pack(pady=10)
+    card_name = Label(myFrame, text=szavak[value.get()])
+    card_name.pack(pady=10)
 
-        badCard = Label(leftFrame, text= "Helytelen")
-        badCard.pack()
+    badCard = Label(leftFrame, text= "Helytelen")
+    badCard.pack()
 
-        goodCard = Label(rightFrame, text="Helyes")
-        goodCard.pack()
+    goodCard = Label(rightFrame, text="Helyes")
+    goodCard.pack()
 
-        tipp = StringVar()
-        entry = Entry(bottomframe, textvariable=tipp ,width=33)
-        entry.pack()
-        button = Button(bottomframe, text="tipp leadás", command=lambda: check(myFrame, card_name, szavak, value, tipp, szavak[value.get()]))
-        button.pack()
+    tipp = StringVar()
+    entry = Entry(bottomframe, textvariable=tipp ,width=33)
+    entry.pack()
+    button = Button(bottomframe, text="tipp leadás", command=lambda: check(window, myFrame, card_name, szavak, value, tipp, szavak[value.get()], tippek))
+    button.pack()
 
-        #value.set(1)
-        print(tipp.get())
+    #value.set(1)
+    print(tipp.get())
 
     window.mainloop()
 
-render()
+    return tippek
+
+#render()
     
