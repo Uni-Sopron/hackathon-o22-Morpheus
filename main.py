@@ -1,4 +1,3 @@
-from guess_checker import is_correct_guess
 from window import render
 import pontozas
 import random
@@ -112,18 +111,6 @@ def round() -> tuple:
     rosszTippek = []
 
     roundAdatok = render(szavak)
-
-    # CONSOLE MEGOLDÁS
-    #for szo in szavak:
-    #    print("szó: " + szo)
-    #    tipp = input("tipp: ")
-    #    almodoTippek.append(tipp)
-    #    #os.system('clear') # linux
-    #    os.system('cls') # windows
-
-    #for i in range(len(almodoTippek)):
-    #    if is_correct_guess(almodoTippek[i], szavak[i]): joTippek.append(almodoTippek[i])
-    #    else: rosszTippek.append(almodoTippek[i])
     
     print("eredeti szavak:")
     print(szavak)
