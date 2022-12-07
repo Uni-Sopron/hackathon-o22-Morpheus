@@ -1,5 +1,20 @@
 from synonyms import getSynonyms
 
+def isPlusOneLetter(guess:str, word:str) -> bool:
+    """Megvizsgája, hogy ha egy beűvel hosszabb-e a szó és a plusz betű nélkül megegyezik-e az eredetivel
+    >>> isPlusOneLetter('allma', 'alma')
+    True
+    >>> isPlusOneLetter('távirrányító', 'távirányító')
+    True
+    >>> isPlusOneLetter('szék', 'asztal')
+    False
+    >>> isPlusOneLetter('távirrrányító', 'távirányító')
+    False
+    """
+    if len(guess) == len(word)+1:
+        return word in [guess[0:i:] + guess[i+1::] for i in range(len(guess))]
+    return False
+
 def is_correct_guess(word: str, testword: str) -> bool:
     word = word.lower()
     testword = testword.lower()
@@ -26,3 +41,7 @@ def is_correct_guess(word: str, testword: str) -> bool:
                 if synonym == testword:
                     return True
     return False
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
