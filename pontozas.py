@@ -14,7 +14,6 @@ def points_handler(player: Player, incorrect_guesses: int, correct_guesses: int)
                 player.points = correct_guesses       
             else:
                 player.points = incorrect_guesses 
-
         elif correct_guesses - incorrect_guesses >= 2:
             if correct_guesses > incorrect_guesses:
                 player.points = incorrect_guesses
