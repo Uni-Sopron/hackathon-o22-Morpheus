@@ -111,7 +111,7 @@ def round() -> tuple:
     joTippek = []
     rosszTippek = []
 
-    almodoTippek = render(szavak)
+    roundAdatok = render(szavak)
 
     # CONSOLE MEGOLDÁS
     #for szo in szavak:
@@ -121,18 +121,18 @@ def round() -> tuple:
     #    #os.system('clear') # linux
     #    os.system('cls') # windows
 
-    for i in range(len(almodoTippek)):
-        if is_correct_guess(almodoTippek[i], szavak[i]): joTippek.append(almodoTippek[i])
-        else: rosszTippek.append(almodoTippek[i])
+    #for i in range(len(almodoTippek)):
+    #    if is_correct_guess(almodoTippek[i], szavak[i]): joTippek.append(almodoTippek[i])
+    #    else: rosszTippek.append(almodoTippek[i])
     
     print("eredeti szavak:")
     print(szavak)
     print("álmodó tippek:")
-    print(almodoTippek)
+    print(roundAdatok["tippek"])
     print("jó szavak:")
-    print(joTippek)
+    print(roundAdatok["joTippek"])
     print("rossz szavak:")
-    print(rosszTippek)
+    print(roundAdatok["rosszTippek"])
 
     return [len(rosszTippek), len(joTippek)]
 
@@ -146,7 +146,6 @@ def main() -> None:
     os.system('cls')
     print("szerepek:")
     playerList = randomRoles(playerList)
-    printPoints(playerList)
     guesses = round()
     for player in playerList:
         pontozas.points_handler(player, guesses[0], guesses[1])

@@ -28,26 +28,37 @@ def Tipp(frame, list, value):
     newKep (frame, list, list[value.get()])
 
 
-def check(window, frame, card_label, list, value, tipp, eredetiSzo, tippek):
-    print(tipp.get(), eredetiSzo, is_correct_guess(tipp.get(), eredetiSzo))
+def check(window, frame, card_label, list, value, tipp, tippek, joTippek, rosszTippek):
     i = value.get()
-    print(value.get())
-    newKep(frame, list, i)
-    card_label.set(list[i])
-    tippek.append(tipp.get())
+    tippSzoveg = tipp.get()
+    tippek.append(tippSzoveg)
+
+    print('Jó tipp-e a/az', tippSzoveg, list[i-1], is_correct_guess(tippSzoveg, list[i-1]))
+    if is_correct_guess(tippSzoveg, list[i-1]):
+        joTippek.append(tippSzoveg)
+        # firssuljon a jobb oldal ezzel a kártyával
+    else:
+        rosszTippek.append(tippSzoveg)
+        # firssuljon a jobb oldal ezzel a kártyával
+
     tipp.set('')
     print(tippek, i)
-    if (i == len(list)-1): 
+    if (i == len(list)): 
         window.destroy()
+    else:
+        card_label.set(list[i])
+        newKep(frame, list, i)
     value.set(i+1)
 
 def render(eredetiSzavak):
     window = Tk()
-    
+
     szavak = eredetiSzavak
     value = IntVar(window, 0)
     value.set(0)
     tippek = []
+    joTippek = []
+    rosszTippek = []
 
     window.resizable(width=FALSE, height=FALSE)
     window.geometry("800x800")
@@ -97,14 +108,17 @@ def render(eredetiSzavak):
     tipp = StringVar()
     entry = Entry(bottomframe, textvariable=tipp ,width=33)
     entry.pack()
-    button = Button(bottomframe, text="tipp leadás", command=lambda: check(window, myFrame, card_text, szavak, value, tipp, szavak[value.get()], tippek))
+    entry.bind('<Return>', lambda event: check(window, myFrame, card_text, szavak, value, tipp, tippek, joTippek, rosszTippek))
+    button = Button(bottomframe, text="tipp", command=lambda: check(window, myFrame, card_text, szavak, value, tipp, tippek, joTippek, rosszTippek))
     button.pack()
-
-    print(tipp.get())
 
     window.mainloop()
 
-    return tippek
+    return {
+        "tippek": tippek,
+        "joTippek": joTippek,
+        "rosszTippek": rosszTippek
+    }
 
 if __name__ == "__main__": 
     render(['idő', 'asztal', 'almalé', 'cápa', 'cukor'])
