@@ -2,6 +2,8 @@ from tkinter import *
 import random
 from PIL import Image, ImageTk
 from guess_checker import is_correct_guess
+import os
+my_path = os.path.abspath(os.path.dirname(__file__))
 
 def readszavak():
     szavak = []
@@ -19,12 +21,12 @@ def get_5_szo():
         choice = random.choice(szavak)
         szavak.remove(choice)
         selected_choices.append(choice)
-        print(len(szavak))
 
     return selected_choices
 
-def newKep (my_frame, name):
-    load = Image.open(name + ".jpg") # csak .jpg képekkel működik, de elég a szót átadni
+def newKep (my_frame, value):
+    
+    load = Image.open(my_path+"/kepek/"+szavak[value]+".jpg") # csak .jpg képekkel működik, de elég a szót átadni
     resize_image = load.resize((250, 250))
     render = ImageTk.PhotoImage(resize_image)
     img = Label(my_frame, image=render)
@@ -33,6 +35,7 @@ def newKep (my_frame, name):
     img.place(x=-20, y=60)
 
 def newCard(my_frame, list, value):
+    
     card = Label(my_frame, text=list[value])
     card.pack(pady=10)
     # return card
@@ -47,13 +50,14 @@ def Tipp(frame, list, value):
 def check(frame, card_name, list, value, tipp, eredetiSzo):
     print(is_correct_guess(tipp.get(), eredetiSzo))
     i = value.get()
-    value.set(i+1)
     print(value.get())
-    newKep(frame, list[i])
+    newKep(frame, i)
     card_name.destroy()
     newCard(frame, list, value.get())
     print(tipp.get())
     tipp.set('')
+    
+    value.set(i+1)
 
 # def check(frame, card_name, list, value):
 #     newKep(frame, list[value])
@@ -64,14 +68,13 @@ def check(frame, card_name, list, value, tipp, eredetiSzo):
 #     else:
 #         Tipp(rightFrame, list, value-1)
 
+szavak = get_5_szo()
 
 def render():
     window = Tk()
 
     value = IntVar(window, 0)
     value.set(0)
-    # szavak = get_5_szo()
-    szavak = ["parrot", "dog", 'oerf']
     tippek = []
 
 
@@ -114,8 +117,7 @@ def render():
         # img = Label(my_frame, image=render)
         # img.image = render
         # img.place(x=-20, y=60)
-
-        newKep(myFrame, "parrot") # megjeleníti a papagáj képet
+        newKep(myFrame, value.get()) # megjeleníti a papagáj képet
 
         # name = newCard(myFrame, szavak, value)
 
