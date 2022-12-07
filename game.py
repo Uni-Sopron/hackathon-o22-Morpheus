@@ -56,7 +56,7 @@ def randomRoles(playerList:list) -> list:
     Returns:
         list: A játékosok listája szerepekkel.
     """
-    f = open(my_path + "\roles.json")
+    f = open(my_path + "/roles.json")
     data = json.load(f)
     f.close()
 
@@ -131,7 +131,7 @@ def round() -> tuple:
     print("rossz szavak:")
     print(rosszTippek)
 
-    return [rosszTippek, joTippek]
+    return [len(rosszTippek), len(joTippek)]
 
 if __name__ == "__main__": 
     #print(is_correct_guess("csíRke", "csirke"))
