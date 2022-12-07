@@ -15,8 +15,9 @@ python3 main.py
 - pontozás kiírása tkinter felületen
 - A végén az álmodó elmondja, hogy mire emlékszik. Erre lehetne checkboxos felület pl, hogy miket tudott felidézni
 - Egy kis menü tkinteren/consolon, ahol választhatsz, hogy új játék kezdete, játékosok felvitele, stb.
+- Egyszerűsíteni lehetne git mappán, hogy átláthatóbb legyen -> felesleges dolgokat kidobni pl.: rar. vagy mappába, fájlba szervezni az egy séma alá tartozó elemeket.
 
-## Még menő lenne megcinálni
+## Még menő lenne megcsinálni
 - Egy timer beállítása egy körre
 - Követni az utalásokat, amiket az álmodónak mondanak és vizsgálni, hogy szabályosak-e
 - Több külöböző gépen játszani servert futattva
