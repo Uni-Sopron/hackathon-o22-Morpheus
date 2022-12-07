@@ -4,10 +4,31 @@ import random
 import shutil
 from urlextract import URLExtract
 import os
-from game import get_5_szo, readszavak
+import json
 # kell pip installálni: bs4, requests, shutil, urlextract, lxml
 
 my_path = os.path.abspath(os.path.dirname(__file__))
+
+
+def readszavak():
+    szavak = []
+    file1 = open(my_path+'/words.txt', 'r', encoding='utf-8')
+    Lines = file1.readlines()
+    for line in Lines:
+        szavak.append(line.strip())
+    return szavak
+
+
+def get_5_szo():
+    selected_choices = []
+    szavak = readszavak()
+    for _ in range(5):
+        choice = random.choice(szavak)
+        szavak.remove(choice)
+        selected_choices.append(choice)
+    print(selected_choices)
+    return selected_choices
+
 
 def give_url(words: list) -> list:
     images = []
@@ -19,11 +40,18 @@ def give_url(words: list) -> list:
         images.append(first_image_link)
     return images
 
+
+def en_to_hu(angol: str) -> str:
+    with open("szoparositas.json","r",encoding="utf8") as f:
+        szavak = json.load(f)
+    return szavak[angol]
+
+    
 def download_image(urls: list, szavak: list):
     # Set up the image URL and filename
     for i in range(len(urls)):
         image_url = urls[i]
-        filename = szavak[i]+".jpg"
+        filename = en_to_hu(szavak[i])+".jpg"
 
         # Open the url image, set stream to True, this will return the stream content.
         r = requests.get(image_url, stream=True)
@@ -41,13 +69,15 @@ def download_image(urls: list, szavak: list):
         else:
             print('Image Couldn\'t be retreived')
 
+
 def move_jpgs_to_folder():
-    if not os.path.isdir(my_path+"/images/"):
-        os.mkdir(my_path+"/images/")
+    if not os.path.isdir(my_path+"/kepek/"):
+        os.mkdir(my_path+"/kepek/")
 
     for i in os.listdir():
         if i.split(".")[-1] == "jpg":
-            os.replace(i, my_path+"/images/"+i)
+            os.replace(i, my_path+"/kepek/"+i)
+
 
 def main():
     #szavak = get_5_szo()
@@ -55,5 +85,6 @@ def main():
     urls = give_url(szavak)
     download_image(urls, szavak)
     move_jpgs_to_folder()
+
 
 main()
