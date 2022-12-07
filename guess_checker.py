@@ -54,6 +54,30 @@ def isPlusOneLetter(guess:str, word:str) -> bool:
         return word in [guess[0:i:] + guess[i+1::] for i in range(len(guess))]
     return False
 
+def isOnlyOneLetterDiff(guess:str, word:str):
+    """
+    >>> isOnlyOneLetterDiff('tlma', 'alma')
+    True
+    >>> isOnlyOneLetterDiff('alma', 'alma')
+    True
+    >>> isOnlyOneLetterDiff('alka', 'alma')
+    True
+    >>> isOnlyOneLetterDiff('élka', 'alma')
+    False
+    >>> isOnlyOneLetterDiff('p', 'alma')
+    False
+    >>> isOnlyOneLetterDiff('tét', 'pók')
+    False
+    >>> isOnlyOneLetterDiff('tét', 'pék')
+    False
+    """
+    isIn = False
+    if len(guess) == len(word):
+        for w in [guess[0:i:] + guess[i+1::] for i in range(len(guess))]:
+            if w in [word[0:i:] + word[i+1::] for i in range(len(guess))]:
+                isIn = True
+    return isIn
+
 def is_correct_guess(word: str, testword: str) -> bool:
     word = word.lower()
     testword = testword.lower()
