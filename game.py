@@ -1,5 +1,5 @@
 from guess_checker import is_correct_guess
-from pontozas import points_handler
+import pontozas
 import random
 import json
 import os
@@ -142,4 +142,4 @@ if __name__ == "__main__":
     playerList = randomRoles(playerList)
     guesses = round()
     for player in playerList:
-        points_handler(player, guesses[0], guesses[1])
+        pontozas.points_handler(player, guesses[0], guesses[1])
