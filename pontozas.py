@@ -1,50 +1,34 @@
-eltalt_kartya = 5
-nem_eltalt_kartya = 5
+from game import Player
 
-mumusok_pontszam = 0
-tunderek_pontszam = 0
-alommanok_pontszam = 0
-almodo_pontszam= 0
+def points_handler(player: Player, incorrect_guesses: int, correct_guesses: int) -> dict:
+    role = player.role
+    if role == "mumus":
+        player.points += incorrect_guesses
+    elif role == "tunder":
+        player.points += correct_guesses
+    elif role == "alommano":
+        if correct_guesses == incorrect_guesses:
+            player.points = correct_guesses + 2    
+        elif correct_guesses - incorrect_guesses == 1 or correct_guesses - incorrect_guesses == -1:
+            if correct_guesses > incorrect_guesses:
+                player.points = correct_guesses       
+            else:
+                player.points = incorrect_guesses 
 
-def alommanok():
-    if eltalt_kartya == nem_eltalt_kartya:
-        alommanok_pontszam = eltalt_kartya+2    
-    elif eltalt_kartya-nem_eltalt_kartya== 1 or eltalt_kartya-nem_eltalt_kartya== -1:
-        if eltalt_kartya>nem_eltalt_kartya:
-            alommanok_pontszam =eltalt_kartya       
+        elif correct_guesses - incorrect_guesses >= 2:
+            if correct_guesses > incorrect_guesses:
+                player.points = incorrect_guesses
+            else:
+                player.points = correct_guesses
+
+        elif correct_guesses - incorrect_guesses <= -2:
+            if correct_guesses > incorrect_guesses:
+                player.points = incorrect_guesses
+            else:
+                player.points = correct_guesses
+    elif role == "almodo":
+        query = int(input("Az álmodó fel tudta idézni az álmokat? Ha igen, akkor írj be egy 1-est, ha nem, akkor 2-est: ",))
+        if query == 1:
+            player.points = correct_guesses + 2
         else:
-            alommanok_pontszam= nem_eltalt_kartya 
-
-    elif eltalt_kartya-nem_eltalt_kartya >=2:
-        if eltalt_kartya>nem_eltalt_kartya:
-            alommanok_pontszam=nem_eltalt_kartya
-        else:
-            alommanok_pontszam=eltalt_kartya
-    elif eltalt_kartya-nem_eltalt_kartya <=-2:
-        if eltalt_kartya>nem_eltalt_kartya:
-            alommanok_pontszam=nem_eltalt_kartya
-        else:
-            alommanok_pontszam=eltalt_kartya
-    return alommanok_pontszam
-
-def tunderek():
-    tunderek_pontszam = eltalt_kartya
-    return tunderek_pontszam
-
-def mumusok():
-    mumusok_pontszam = nem_eltalt_kartya
-    return mumusok_pontszam
-
-def almodo():
-    pont=0
-    kerdes = int(input("Az álmodó fel tudta idézni az álmokat? Ha igen, akkor írj be egy 1-est, ha nem, akkor 2-est: ",))
-    if kerdes == 1:
-        pont = eltalt_kartya+2
-    else:
-        pont = eltalt_kartya
-    return pont
-    
-print("Az álmodó pontszáma:",almodo())
-print("A Tündérek pontszáma:", tunderek())
-print("A Mumusok pontszáma:", mumusok())
-print("Az Álommanók pontszáma:", alommanok())
+            player.points = correct_guesses
