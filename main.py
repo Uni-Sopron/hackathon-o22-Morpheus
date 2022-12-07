@@ -1,6 +1,7 @@
 from tkinter import *
 import random
 from PIL import Image, ImageTk
+from guess_checker import is_correct_guess
 
 def readszavak():
     szavak = []
@@ -40,13 +41,19 @@ def callback(value):
     value+=1
 
 def Tipp(frame, list, value):
-    newKep (frame, list[value])
+    newKep (frame, list[value.get()])
 
 
-def check(frame, card_name, list, value):
-    newKep(frame, list[value])
+def check(frame, card_name, list, value, tipp, eredetiSzo):
+    print(is_correct_guess(tipp.get(), eredetiSzo))
+    i = value.get()
+    value.set(i+1)
+    print(value.get())
+    newKep(frame, list[i])
     card_name.destroy()
-    newCard(frame, list, value)
+    newCard(frame, list, value.get())
+    print(tipp.get())
+    tipp.set('')
 
 # def check(frame, card_name, list, value):
 #     newKep(frame, list[value])
@@ -59,12 +66,14 @@ def check(frame, card_name, list, value):
 
 
 def render():
-    value = 0
+    window = Tk()
+
+    value = IntVar(window, 0)
+    value.set(0)
     # szavak = get_5_szo()
-    szavak = ["parrot", "dog"]
+    szavak = ["parrot", "dog", 'oerf']
     tippek = []
 
-    window = Tk()
 
     window.resizable(width=FALSE, height=FALSE)
     window.geometry("800x800")
@@ -74,16 +83,16 @@ def render():
     mainframe.pack()
 
     topframe = Frame(mainframe)
-    topframe.grid(row=0, column=1,padx=(value, 10))
+    topframe.grid(row=0, column=1,padx=(value.get(), 10))
 
     bottomframe = Frame(mainframe)
-    bottomframe.grid(row=1, column=1,padx=(value, 10))
+    bottomframe.grid(row=1, column=1,padx=(value.get(), 10))
 
     leftFrame = Frame(mainframe)
-    leftFrame.grid(row=0, column=0,padx=(value, 10))
+    leftFrame.grid(row=0, column=0,padx=(value.get(), 10))
 
     rightFrame = Frame(mainframe)
-    rightFrame.grid(row=0, column=2,padx=(value, 10))
+    rightFrame.grid(row=0, column=2,padx=(value.get(), 10))
 
 
     for i in range(1): # while len(szavak)?
@@ -110,7 +119,7 @@ def render():
 
         # name = newCard(myFrame, szavak, value)
 
-        card_name = Label(myFrame, text=szavak[value])
+        card_name = Label(myFrame, text=szavak[value.get()])
         card_name.pack(pady=10)
 
         badCard = Label(leftFrame, text= "Helytelen")
@@ -119,13 +128,14 @@ def render():
         goodCard = Label(rightFrame, text="Helyes")
         goodCard.pack()
 
-
-        entry = Entry(bottomframe,width=33)
+        tipp = StringVar()
+        entry = Entry(bottomframe, textvariable=tipp ,width=33)
         entry.pack()
-        button = Button(bottomframe, text="tipp leadás", command=lambda: check(myFrame, card_name, szavak, value))
+        button = Button(bottomframe, text="tipp leadás", command=lambda: check(myFrame, card_name, szavak, value, tipp, szavak[value.get()]))
         button.pack()
 
-        value+=1
+        #value.set(1)
+        print(tipp.get())
 
     window.mainloop()
 
