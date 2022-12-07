@@ -113,6 +113,7 @@ def round() -> tuple:
 
     almodoTippek = render(szavak)
 
+    # CONSOLE MEGOLDÁS
     #for szo in szavak:
     #    print("szó: " + szo)
     #    tipp = input("tipp: ")
@@ -135,10 +136,21 @@ def round() -> tuple:
 
     return [len(rosszTippek), len(joTippek)]
 
-if __name__ == "__main__": 
+def printPoints(players:list) -> None:
+    for player in players: 
+        print('Név: ' + player.name)
+        print('Pont: ' + str(player.points))
+
+def main() -> None:
     playerList = playersInit()
+    os.system('cls')
     print("szerepek:")
     playerList = randomRoles(playerList)
+    printPoints(playerList)
     guesses = round()
     for player in playerList:
         pontozas.points_handler(player, guesses[0], guesses[1])
+    printPoints(playerList)
+
+if __name__ == "__main__": 
+    main()    
