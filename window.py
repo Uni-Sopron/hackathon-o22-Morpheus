@@ -117,12 +117,13 @@ def render(eredetiSzavak):
         # img = Label(my_frame, image=render)
         # img.image = render
         # img.place(x=-20, y=60)
-    newKep(myFrame, szavak, value.get()) # megjeleníti a papagáj képet
+    newKep(myFrame, szavak, value.get()) # megjeleníti az elso kepet
 
         # name = newCard(myFrame, szavak, value)
 
     card_name = Label(myFrame, text=szavak[value.get()])
     card_name.pack(pady=10)
+    value.set(1)
 
     badCard = Label(leftFrame, text= "Helytelen")
     badCard.pack()
