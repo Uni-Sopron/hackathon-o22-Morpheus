@@ -1,5 +1,5 @@
 from guess_checker import is_correct_guess
-from main import render
+from window import render
 import pontozas
 import random
 import json

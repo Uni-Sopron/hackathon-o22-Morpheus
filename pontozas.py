@@ -1,4 +1,4 @@
-from game import Player
+from main import Player
 
 def points_handler(player: Player, incorrect_guesses: int, correct_guesses: int) -> None:
     role = player.role

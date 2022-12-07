@@ -1,147 +1,148 @@
-from tkinter import *
-import random
-from PIL import Image, ImageTk
 from guess_checker import is_correct_guess
+from window import render
+import pontozas
+import random
+import json
 import os
+
 my_path = os.path.abspath(os.path.dirname(__file__))
+
+class Player:
+    def __init__(self, name:str, playar_id: int) -> None:
+        self.player_id = playar_id
+        self.name = name
+        self.role = None
+        self.points = 0
+    
+    def setRole(self, role:str) -> None:
+        """Beállít a játékosnak egy szerepet."""
+        self.role = role
+
+    def addPoint(self, point:int) -> None:
+        """Hozzáaddja a pontokat a játékos pontjaihoz."""
+        self.points += point
+
+def playersInit() -> list:
+    """Felveszi a játékosokat névvel.
+    
+    Returns:
+        list: A játékosok listája.
+    """
+    playerList = []
+    f = open(my_path + "/roles.json")
+    data = json.load(f)
+    f.close()
+
+    playerCount = 0
+    maxPlayerCount = max([int(i) for i in data.keys()])
+    minPlayerCount = min([int(i) for i in data.keys()])
+    while int(playerCount) > maxPlayerCount or int(playerCount) < minPlayerCount: 
+        print('Add meg a játékosok számát:')
+        playerCount = input()
+        if int(playerCount) > maxPlayerCount or int(playerCount) < minPlayerCount: 
+            print("Nem jó játékos szám!")
+
+    id = 0
+    for playerNum in range(int(playerCount)):
+        print("Add meg a " + str(playerNum+1) + ". nevét: ")
+        name = input()
+        playerList.append(Player(name,id))
+        id += 1
+
+    return playerList
+
+def randomRoles(playerList:list) -> list:
+    """Szerepet oszt minden játékoshoz.
+    
+    Returns:
+        list: A játékosok listája szerepekkel.
+    """
+    f = open(my_path + "/roles.json")
+    data = json.load(f)
+    f.close()
+
+    withoutRole = playerList[:]
+
+    dreamer = random.choice(playerList)
+    for player in playerList:
+        if player.player_id == dreamer.player_id:
+            player.setRole("almodo")
+            withoutRole.remove(dreamer)
+
+    roles = []
+    for role in data[str(len(playerList))].keys():
+        for _ in range(int(data[str(len(playerList))][role])):
+            roles.append(role)
+
+    for player in withoutRole:
+        role = random.choice(roles)
+        player.setRole(role)
+        roles.remove(role)
+
+    for player in playerList:
+        print("Név: " + player.name)
+        print("Szerep: " + player.role)
+        print()
+        #os.system('clear') # linux
+        #os.system('cls') # windows
+
+    return playerList
 
 def readszavak():
     szavak = []
-    file1 = open('szavak.txt', 'r',encoding='utf-8')
+    file1 = open(my_path+'/szavak.txt', 'r', encoding='utf-8')
     Lines = file1.readlines()
     for line in Lines:
         szavak.append(line.strip())
-    
     return szavak
 
-def get_n_szo(n:int):
+def get_n_szo(n):
     selected_choices=[]
     szavak = readszavak()
     for _ in range(n):
         choice = random.choice(szavak)
         szavak.remove(choice)
         selected_choices.append(choice)
-
     return selected_choices
 
-def newKep (my_frame, szavak, value):
+def round() -> tuple:
+    """Egy kört vezényel le"""
+    szavak = get_n_szo(5)
+    joTippek = []
+    rosszTippek = []
+
+    almodoTippek = render(szavak)
+
+    #for szo in szavak:
+    #    print("szó: " + szo)
+    #    tipp = input("tipp: ")
+    #    almodoTippek.append(tipp)
+    #    #os.system('clear') # linux
+    #    os.system('cls') # windows
+
+    for i in range(len(almodoTippek)):
+        if is_correct_guess(almodoTippek[i], szavak[i]): joTippek.append(almodoTippek[i])
+        else: rosszTippek.append(almodoTippek[i])
     
-    load = Image.open(my_path+"/kepek/"+szavak[value]+".jpg") # csak .jpg képekkel működik, de elég a szót átadni
-    resize_image = load.resize((250, 250))
-    render = ImageTk.PhotoImage(resize_image)
-    img = Label(my_frame, image=render)
-    img.image = render
-    # img.place(x=-20, y=60)
-    img.place(x=-20, y=60)
+    print("eredeti szavak:")
+    print(szavak)
+    print("álmodó tippek:")
+    print(almodoTippek)
+    print("jó szavak:")
+    print(joTippek)
+    print("rossz szavak:")
+    print(rosszTippek)
 
-def newCard(my_frame, list, value):
-    
-    card = Label(my_frame, text=list[value])
-    card.pack(pady=10)
-    # return card
+    return [len(rosszTippek), len(joTippek)]
 
-def callback(value):
-    value+=1
-
-def Tipp(frame, list, value):
-    newKep (frame, list, list[value.get()])
-
-
-def check(window, frame, card_name, list, value, tipp, eredetiSzo, tippek):
-    print(tipp.get(), eredetiSzo, is_correct_guess(tipp.get(), eredetiSzo))
-    i = value.get()
-    print(value.get())
-    newKep(frame, list, i)
-    card_name.destroy()
-    newCard(frame, list, value.get())
-    tippek.append(tipp.get())
-    tipp.set('')
-    print(tippek, i)
-    if (i == len(list)-1): 
-        window.destroy()
-    value.set(i+1)
-
-# def check(frame, card_name, list, value):
-#     newKep(frame, list[value])
-#     card_name.destroy()
-#     newCard(frame, list, value)
-#     if rossztipp:
-#         Tipp(leftFrame, list, value-1)
-#     else:
-#         Tipp(rightFrame, list, value-1)
-
-
-def render(eredetiSzavak):
-    window = Tk()
-    szavak = eredetiSzavak
-    value = IntVar(window, 0)
-    value.set(0)
-    tippek = []
-
-
-    window.resizable(width=FALSE, height=FALSE)
-    window.geometry("800x800")
-    window.title('Álmodj Velem')
-    window.configure(background="#954535")
-    mainframe= Frame(window ,background="#954535",padx=100,pady=100)
-    mainframe.pack()
-
-    topframe = Frame(mainframe)
-    topframe.grid(row=0, column=1,padx=(value.get(), 10))
-
-    bottomframe = Frame(mainframe)
-    bottomframe.grid(row=1, column=1,padx=(value.get(), 10))
-
-    leftFrame = Frame(mainframe)
-    leftFrame.grid(row=0, column=0,padx=(value.get(), 10))
-
-    rightFrame = Frame(mainframe)
-    rightFrame.grid(row=0, column=2,padx=(value.get(), 10))
-
-
-    badFrame = Frame(leftFrame, width=200,height=300)
-    badFrame.pack()
-    badFrame.pack_propagate(False)
-
-    myFrame = Frame(topframe, width=202, height=325)
-    myFrame.pack()
-    myFrame.pack_propagate(False)
-
-    goodFrame = Frame(rightFrame, width=200, height=300)
-    goodFrame.pack()
-
-        # load = Image.open("parrot.jpg")
-        # resize_image = load.resize((250, 250))
-
-        # render = ImageTk.PhotoImage(resize_image)
-        # img = Label(my_frame, image=render)
-        # img.image = render
-        # img.place(x=-20, y=60)
-    newKep(myFrame, szavak, value.get()) # megjeleníti a papagáj képet
-
-        # name = newCard(myFrame, szavak, value)
-
-    card_name = Label(myFrame, text=szavak[value.get()])
-    card_name.pack(pady=10)
-
-    badCard = Label(leftFrame, text= "Helytelen")
-    badCard.pack()
-
-    goodCard = Label(rightFrame, text="Helyes")
-    goodCard.pack()
-
-    tipp = StringVar()
-    entry = Entry(bottomframe, textvariable=tipp ,width=33)
-    entry.pack()
-    button = Button(bottomframe, text="tipp leadás", command=lambda: check(window, myFrame, card_name, szavak, value, tipp, szavak[value.get()], tippek))
-    button.pack()
-
-    #value.set(1)
-    print(tipp.get())
-
-    window.mainloop()
-
-    return tippek
-
-#render()
-    
+if __name__ == "__main__": 
+    #print(is_correct_guess("csíRke", "csirke"))
+    #print(is_correct_guess("kosar", "kosár")) #FALSE???
+    #print(is_correct_guess("muzsika", "zene")) #FALSE???
+    #print(is_correct_guess("regeny", "regény")) #FALSE??? 
+    playerList = playersInit()
+    print("szerepek:")
+    playerList = randomRoles(playerList)
+    guesses = round()
+    for player in playerList:
+        pontozas.points_handler(player, guesses[0], guesses[1])
