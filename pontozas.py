@@ -1,6 +1,6 @@
 from game import Player
 
-def points_handler(player: Player, incorrect_guesses: int, correct_guesses: int) -> dict:
+def points_handler(player: Player, incorrect_guesses: int, correct_guesses: int) -> None:
     role = player.role
     if role == "mumus":
         player.points += incorrect_guesses
@@ -19,7 +19,6 @@ def points_handler(player: Player, incorrect_guesses: int, correct_guesses: int)
                 player.points = incorrect_guesses
             else:
                 player.points = correct_guesses
-
         elif correct_guesses - incorrect_guesses <= -2:
             if correct_guesses > incorrect_guesses:
                 player.points = incorrect_guesses
