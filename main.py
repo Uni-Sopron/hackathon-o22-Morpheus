@@ -136,10 +136,6 @@ def round() -> tuple:
     return [len(rosszTippek), len(joTippek)]
 
 if __name__ == "__main__": 
-    #print(is_correct_guess("csíRke", "csirke"))
-    #print(is_correct_guess("kosar", "kosár")) #FALSE???
-    #print(is_correct_guess("muzsika", "zene")) #FALSE???
-    #print(is_correct_guess("regeny", "regény")) #FALSE??? 
     playerList = playersInit()
     print("szerepek:")
     playerList = randomRoles(playerList)

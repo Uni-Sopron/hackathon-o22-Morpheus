@@ -5,25 +5,6 @@ from guess_checker import is_correct_guess
 import os
 my_path = os.path.abspath(os.path.dirname(__file__))
 
-def readszavak():
-    szavak = []
-    file1 = open('szavak.txt', 'r',encoding='utf-8')
-    Lines = file1.readlines()
-    for line in Lines:
-        szavak.append(line.strip())
-    
-    return szavak
-
-def get_n_szo(n:int):
-    selected_choices=[]
-    szavak = readszavak()
-    for _ in range(n):
-        choice = random.choice(szavak)
-        szavak.remove(choice)
-        selected_choices.append(choice)
-
-    return selected_choices
-
 def newKep (my_frame, szavak, value):
     
     load = Image.open(my_path+"/kepek/"+szavak[value]+".jpg") # csak .jpg képekkel működik, de elég a szót átadni
@@ -47,13 +28,12 @@ def Tipp(frame, list, value):
     newKep (frame, list, list[value.get()])
 
 
-def check(window, frame, card_name, list, value, tipp, eredetiSzo, tippek):
+def check(window, frame, card_label, list, value, tipp, eredetiSzo, tippek):
     print(tipp.get(), eredetiSzo, is_correct_guess(tipp.get(), eredetiSzo))
     i = value.get()
     print(value.get())
     newKep(frame, list, i)
-    card_name.destroy()
-    newCard(frame, list, value.get())
+    card_label.set(list[i])
     tippek.append(tipp.get())
     tipp.set('')
     print(tippek, i)
@@ -61,23 +41,13 @@ def check(window, frame, card_name, list, value, tipp, eredetiSzo, tippek):
         window.destroy()
     value.set(i+1)
 
-# def check(frame, card_name, list, value):
-#     newKep(frame, list[value])
-#     card_name.destroy()
-#     newCard(frame, list, value)
-#     if rossztipp:
-#         Tipp(leftFrame, list, value-1)
-#     else:
-#         Tipp(rightFrame, list, value-1)
-
-
 def render(eredetiSzavak):
     window = Tk()
+    
     szavak = eredetiSzavak
     value = IntVar(window, 0)
     value.set(0)
     tippek = []
-
 
     window.resizable(width=FALSE, height=FALSE)
     window.geometry("800x800")
@@ -110,18 +80,11 @@ def render(eredetiSzavak):
     goodFrame = Frame(rightFrame, width=200, height=300)
     goodFrame.pack()
 
-        # load = Image.open("parrot.jpg")
-        # resize_image = load.resize((250, 250))
-
-        # render = ImageTk.PhotoImage(resize_image)
-        # img = Label(my_frame, image=render)
-        # img.image = render
-        # img.place(x=-20, y=60)
+        
     newKep(myFrame, szavak, value.get()) # megjeleníti az elso kepet
 
-        # name = newCard(myFrame, szavak, value)
-
-    card_name = Label(myFrame, text=szavak[value.get()])
+    card_text = StringVar(window, szavak[0])
+    card_name = Label(myFrame, textvariable=card_text)
     card_name.pack(pady=10)
     value.set(1)
 
@@ -134,15 +97,15 @@ def render(eredetiSzavak):
     tipp = StringVar()
     entry = Entry(bottomframe, textvariable=tipp ,width=33)
     entry.pack()
-    button = Button(bottomframe, text="tipp leadás", command=lambda: check(window, myFrame, card_name, szavak, value, tipp, szavak[value.get()], tippek))
+    button = Button(bottomframe, text="tipp leadás", command=lambda: check(window, myFrame, card_text, szavak, value, tipp, szavak[value.get()], tippek))
     button.pack()
 
-    #value.set(1)
     print(tipp.get())
 
     window.mainloop()
 
     return tippek
 
-#render()
+if __name__ == "__main__": 
+    render(['idő', 'asztal', 'almalé', 'cápa', 'cukor'])
     
