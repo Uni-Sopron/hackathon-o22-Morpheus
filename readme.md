@@ -14,7 +14,7 @@ python3 main.py
 - Játékosok megadása tkinter felületen
 - pontozás kiírása tkinter felületen
 - A végén az álmodó elmondja, hogy mire emlékszik. Erre lehetne checkboxos felület pl, hogy miket tudott felidézni
-- Egy kis menü tkinteren/consolon, ahol választhatsz, hogy új játék kezdete, játékosok felvitele, stb.
+- Egy kis menü tkinteren/consolon, ahol választhatsz, hogy új játék kezdete, játékosok felvitele, stb. (DONE?)
 - Egyszerűsíteni lehetne git mappán meg a kódon (tesztelő printek kiszedése), hogy átláthatóbb legyen -> felesleges dolgokat kidobni pl.: rar. vagy mappába, fájlba szervezni az egy séma alá tartozó elemeket.
 
 ## Még menő lenne megcsinálni
