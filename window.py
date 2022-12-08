@@ -42,6 +42,8 @@ def check(window, frame, card_label, list, value, tipp, tippek, joTippek, rosszT
         goodFrame.pack() 
         new_label = Label(rightFrame,text=list[i-1])
         new_label.pack()
+        new_label = Label(rightFrame,text='Jelenlegi összes jó tipp: {}'.format(len(joTippek)))
+        new_label.pack()
         newKep(rightFrame, list, i-1)
         
         
@@ -52,6 +54,8 @@ def check(window, frame, card_label, list, value, tipp, tippek, joTippek, rosszT
         badFrame = Frame(leftFrame, width=200,height=300)
         badFrame.pack()
         new_label = Label(leftFrame,text=list[i-1])
+        new_label.pack()
+        new_label = Label(leftFrame,text='Jelenlegi összes rossz tipp: {}'.format(len(rosszTippek)))
         new_label.pack()
         newKep(badFrame, list, i-1)
         badFrame.pack_propagate(False)
@@ -88,13 +92,6 @@ def render(eredetiSzavak):
 
     bottomframe = Frame(mainframe)
     bottomframe.grid(row=1, column=1,padx=(value.get(), 10))
-
-    
-
-   
-
-
-   
 
     myFrame = Frame(topframe, width=202, height=325)
     myFrame.pack()
