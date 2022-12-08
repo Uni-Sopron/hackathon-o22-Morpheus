@@ -138,8 +138,8 @@ def printPoints(players:list) -> None:
 def main() -> None:
     newRound = True
     while (newRound):
-        playerList = playersInit()
-        os.system('cls')
+        #playerList = playersInit()
+        #os.system('cls')
         dreamerList = []
         for player in playerList:
             playerList = randomRoles(playerList, dreamerList)
