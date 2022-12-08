@@ -1,4 +1,3 @@
-from this import d
 from window import render
 import pontozas
 import random
@@ -48,7 +47,6 @@ def playersInit() -> list:
         name = input()
         playerList.append(Player(name,id))
         id += 1
-        
 
     return playerList
 
