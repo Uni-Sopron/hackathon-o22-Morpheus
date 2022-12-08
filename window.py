@@ -13,7 +13,7 @@ def newKep (my_frame, szavak, value):
     img = Label(my_frame, image=render)
     img.image = render
     # img.place(x=-20, y=60)
-    img.place(x=-20, y=60)
+    img.place(x=-20, y=40)
 
 def newCard(my_frame, list, value):
     
@@ -28,7 +28,7 @@ def Tipp(frame, list, value):
     newKep (frame, list, list[value.get()])
 
 
-def check(window, frame, card_label, list, value, tipp, tippek, joTippek, rosszTippek):
+def check(window, frame, card_label, list, value, tipp, tippek, joTippek, rosszTippek,mainframe):
     i = value.get()
     tippSzoveg = tipp.get()
     tippek.append(tippSzoveg)
@@ -36,10 +36,26 @@ def check(window, frame, card_label, list, value, tipp, tippek, joTippek, rosszT
     print('Jó tipp-e a/az', tippSzoveg, list[i-1], is_correct_guess(tippSzoveg, list[i-1]))
     if is_correct_guess(tippSzoveg, list[i-1]):
         joTippek.append(tippSzoveg)
-        # firssuljon a jobb oldal ezzel a kártyával
+        rightFrame = Frame(mainframe)
+        rightFrame.grid(row=0, column=2,padx=(value.get(), 10))
+        goodFrame = Frame(rightFrame, width=200, height=300)
+        goodFrame.pack()
+        new_label = Label(rightFrame,text=list[i-1])
+        new_label.pack()
+        newKep(rightFrame, list, i-1)
+        
+        
     else:
         rosszTippek.append(tippSzoveg)
-        # firssuljon a jobb oldal ezzel a kártyával
+        leftFrame = Frame(mainframe)
+        leftFrame.grid(row=0, column=0,padx=(value.get(), 10))
+        badFrame = Frame(leftFrame, width=200,height=300)
+        badFrame.pack()
+        new_label = Label(leftFrame,text=list[i-1])
+        new_label.pack()
+        newKep(badFrame, list, i-1)
+        badFrame.pack_propagate(False)
+        
 
     tipp.set('')
     print(tippek, i)
@@ -61,7 +77,7 @@ def render(eredetiSzavak):
     rosszTippek = []
 
     window.resizable(width=FALSE, height=FALSE)
-    window.geometry("800x800")
+    window.geometry("1200x800")
     window.title('Álmodj Velem')
     window.configure(background="#954535")
     mainframe= Frame(window ,background="#954535",padx=100,pady=100)
@@ -73,23 +89,18 @@ def render(eredetiSzavak):
     bottomframe = Frame(mainframe)
     bottomframe.grid(row=1, column=1,padx=(value.get(), 10))
 
-    leftFrame = Frame(mainframe)
-    leftFrame.grid(row=0, column=0,padx=(value.get(), 10))
+    
 
-    rightFrame = Frame(mainframe)
-    rightFrame.grid(row=0, column=2,padx=(value.get(), 10))
+   
 
 
-    badFrame = Frame(leftFrame, width=200,height=300)
-    badFrame.pack()
-    badFrame.pack_propagate(False)
+   
 
     myFrame = Frame(topframe, width=202, height=325)
     myFrame.pack()
     myFrame.pack_propagate(False)
 
-    goodFrame = Frame(rightFrame, width=200, height=300)
-    goodFrame.pack()
+    
 
         
     newKep(myFrame, szavak, value.get()) # megjeleníti az elso kepet
@@ -99,17 +110,15 @@ def render(eredetiSzavak):
     card_name.pack(pady=10)
     value.set(1)
 
-    badCard = Label(leftFrame, text= "Helytelen")
-    badCard.pack()
+    
 
-    goodCard = Label(rightFrame, text="Helyes")
-    goodCard.pack()
+   
 
     tipp = StringVar()
     entry = Entry(bottomframe, textvariable=tipp ,width=33)
     entry.pack()
-    entry.bind('<Return>', lambda event: check(window, myFrame, card_text, szavak, value, tipp, tippek, joTippek, rosszTippek))
-    button = Button(bottomframe, text="tipp", command=lambda: check(window, myFrame, card_text, szavak, value, tipp, tippek, joTippek, rosszTippek))
+    entry.bind('<Return>', lambda event: check(window, myFrame, card_text, szavak, value, tipp, tippek, joTippek, rosszTippek,mainframe))
+    button = Button(bottomframe, text="tipp", command=lambda: check(window, myFrame, card_text, szavak, value, tipp, tippek, joTippek, rosszTippek,mainframe))
     button.pack()
 
     window.mainloop()
