@@ -96,7 +96,7 @@ def is_correct_guess(word: str, testword: str) -> bool:
             if test_letters.count(letter,0,len(test_letters)) != 0:
                 index = letters_to_check.index(letter)
                 test_letters = test_letters.replace(letters_to_check[index], letters_to_change_to[index])
-        if letters == testword or letters == test_letters:
+        if letters == testword or letters == test_letters or isPlusOneLetter(word, testword) or isOnlyOneLetterDiff(word, testword):
             return True
         else:
             synonyms = getSynonyms(word)
