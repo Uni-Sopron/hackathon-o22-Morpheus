@@ -1,3 +1,4 @@
+
 from window import render
 import pontozas
 import random
@@ -7,8 +8,8 @@ import os
 my_path = os.path.abspath(os.path.dirname(__file__))
 
 class Player:
-    def __init__(self, name:str, playar_id: int) -> None:
-        self.player_id = playar_id
+    def __init__(self, name:str, player_id: int) -> None:
+        self.player_id = player_id
         self.name = name
         self.role = None
         self.points = 0
@@ -50,7 +51,7 @@ def playersInit() -> list:
 
     return playerList
 
-def randomRoles(playerList:list) -> list:
+def randomRoles(playerList: list, dreamerList: list) -> list:
     """Szerepet oszt minden játékoshoz.
     
     Returns:
@@ -63,10 +64,13 @@ def randomRoles(playerList:list) -> list:
     withoutRole = playerList[:]
 
     dreamer = random.choice(playerList)
+    while dreamerList.count(dreamer) != 0:
+        dreamer = random.choice(playerList)
     for player in playerList:
         if player.player_id == dreamer.player_id:
             player.setRole("almodo")
             withoutRole.remove(dreamer)
+            break
 
     roles = []
     for role in data[str(len(playerList))].keys():
@@ -81,11 +85,16 @@ def randomRoles(playerList:list) -> list:
     for player in playerList:
         print("Név: " + player.name)
         print("Szerep: " + player.role)
-        print()
+        input('')
         #os.system('clear') # linux
-        #os.system('cls') # windows
+        os.system('cls') # windows
 
     return playerList
+
+def getDreamer(playerList: list) -> int:
+    for player in playerList:
+        if player.role == "almodo":
+            return player
 
 def readszavak():
     szavak = []
@@ -107,8 +116,6 @@ def get_n_szo(n):
 def round() -> tuple:
     """Egy kört vezényel le"""
     szavak = get_n_szo(5)
-    joTippek = []
-    rosszTippek = []
 
     roundAdatok = render(szavak)
     
@@ -121,22 +128,38 @@ def round() -> tuple:
     print("rossz szavak:")
     print(roundAdatok["rosszTippek"])
 
-    return [len(rosszTippek), len(joTippek)]
+    return [len(roundAdatok["rosszTippek"]), len(roundAdatok["joTippek"])]
 
 def printPoints(players:list) -> None:
     for player in players: 
-        print('Név: ' + player.name)
-        print('Pont: ' + str(player.points))
+        print(f"{player.name}({player.role}): {player.points}")
+    print('\n')
 
 def main() -> None:
-    playerList = playersInit()
-    os.system('cls')
-    print("szerepek:")
-    playerList = randomRoles(playerList)
-    guesses = round()
-    for player in playerList:
-        pontozas.points_handler(player, guesses[0], guesses[1])
-    printPoints(playerList)
+    newRound = True
+    while (newRound):
+        playerList = playersInit()
+        os.system('cls')
+        dreamerList = []
+        for player in playerList:
+            playerList = randomRoles(playerList, dreamerList)
+            dreamerList.append(getDreamer(playerList))
+            guesses = round()
+            for player in playerList:
+                pontozas.points_handler(player, guesses[0], guesses[1])
+            printPoints(playerList)
+            for player in playerList:
+                player.role = None 
+        while(True):
+            newGameCheck = input('Szeretnétek mégegy kört játszani? (y/n)')
+            if newGameCheck == 'n' or newGameCheck == 'no' or newGameCheck == 'nem':
+                newRound = False
+                break
+            elif newGameCheck == 'y' or newGameCheck == 'yes' or newGameCheck == 'igen':
+                break
+            else:
+                print('Nem értem a választ!')
 
 if __name__ == "__main__": 
-    main()    
+    main()
+
