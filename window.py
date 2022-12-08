@@ -39,7 +39,7 @@ def check(window, frame, card_label, list, value, tipp, tippek, joTippek, rosszT
         rightFrame = Frame(mainframe)
         rightFrame.grid(row=0, column=2,padx=(value.get(), 10))
         goodFrame = Frame(rightFrame, width=200, height=300)
-        goodFrame.pack()
+        goodFrame.pack() 
         new_label = Label(rightFrame,text=list[i-1])
         new_label.pack()
         newKep(rightFrame, list, i-1)
