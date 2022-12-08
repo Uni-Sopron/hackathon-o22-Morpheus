@@ -149,9 +149,15 @@ def main() -> None:
             printPoints(playerList)
             for player in playerList:
                 player.role = None 
-        newGameCheck = input('Szeretnétek mégegy kört játszani? (y/n)')
-        if newGameCheck == 'n' or newGameCheck == 'no' or newGameCheck == 'nem':
-            newRound = False
+        while(True):
+            newGameCheck = input('Szeretnétek mégegy kört játszani? (y/n)')
+            if newGameCheck == 'n' or newGameCheck == 'no' or newGameCheck == 'nem':
+                newRound = False
+                break
+            elif newGameCheck == 'y' or newGameCheck == 'yes' or newGameCheck == 'igen':
+                break
+            else:
+                print('Nem értem a választ!')
 
 if __name__ == "__main__": 
     main()
