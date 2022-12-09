@@ -1,7 +1,6 @@
 from tkinter import *
 
 
-players = []
 window = Tk()
 def initplayers(mainframe):
     getplayersframe = Frame(mainframe, width=600,height=600)
@@ -20,11 +19,16 @@ def initplayers(mainframe):
     playersubmitbutton.pack()
     
 def addplayers(count,players,new_frame):
-    words = players.get().split(',')
+    secondaryplayerlist = players.get().split(',')
+    for i in range(len(secondaryplayerlist)):
+        playerlist.append(secondaryplayerlist[i])
     
-    if len(words) != int(count):
+    
+    if len(playerlist) != int(count):
         newlabel = Label(new_frame, text="rossz játékosmennyiség,annyit adj meg amennyit választottál")
         newlabel.pack()
+        playerlist.clear()
+        
     else:
         window.destroy()
         
@@ -62,6 +66,8 @@ def submit(playercount,countframe,getplayersframe):
     
 
 def rendermethod():
+    global playerlist
+    playerlist = []
     
 
    
@@ -81,7 +87,7 @@ def rendermethod():
 
     window.mainloop()
     return {
-        "playerek": players
+        "playerek": playerlist
         
     }
 
@@ -89,4 +95,5 @@ def rendermethod():
 
 if __name__ == "__main__": 
     rendermethod()
+    
     

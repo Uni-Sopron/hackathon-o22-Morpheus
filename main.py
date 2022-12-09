@@ -4,7 +4,7 @@ import pontozas
 import random
 import json
 import os
-
+from players import rendermethod
 my_path = os.path.abspath(os.path.dirname(__file__))
 
 class Player:
@@ -25,28 +25,20 @@ class Player:
 def playersInit() -> list:
     """Felveszi a játékosokat névvel.
     
-    Returns:
+    Returns:a
         list: A játékosok listája.
     """
+    result = rendermethod()
+    playernames = result["playerek"]
+    
     playerList = []
-    f = open(my_path + "/roles.json")
-    data = json.load(f)
-    f.close()
 
-    playerCount = 0
-    maxPlayerCount = max([int(i) for i in data.keys()])
-    minPlayerCount = min([int(i) for i in data.keys()])
-    while int(playerCount) > maxPlayerCount or int(playerCount) < minPlayerCount: 
-        print('Add meg a játékosok számát:')
-        playerCount = input()
-        if int(playerCount) > maxPlayerCount or int(playerCount) < minPlayerCount: 
-            print("Nem jó játékos szám!")
+    
 
     id = 0
-    for playerNum in range(int(playerCount)):
-        print("Add meg a " + str(playerNum+1) + ". nevét: ")
-        name = input()
-        playerList.append(Player(name,id))
+    for i in range(len(playernames)):
+ 
+        playerList.append(Player(playernames[i],id))
         id += 1
 
     return playerList
@@ -139,7 +131,7 @@ def main() -> None:
     newRound = True
     while (newRound):
         playerList = playersInit()
-        os.system('cls')
+        
         dreamerList = []
         for player in playerList:
             playerList = randomRoles(playerList, dreamerList)
